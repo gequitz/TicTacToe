@@ -1,0 +1,136 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package tictactoenew;
+import java.util.Scanner;
+
+
+public class TicTacToeNew {
+
+    
+    public static void main(String[] args) {
+        
+        // Initialize variables        
+        char playerMark;
+        char [][] board = {{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};        
+        playerMark = 'X';
+        boolean gameOn = false;
+        
+        System.out.println("Welcome to TicTacToe!!");
+        System.out.println("Player 1 is X and Player 2 is 0");
+        System.out.println("Press enter to begin...");
+        Scanner scan = new Scanner(System.in); 
+        gameOn = scan.hasNextLine();
+       
+      
+        makeTheBoard(board); // intialize the board
+        
+        // Game on:
+        while(gameOn){
+           System.out.println("Enter row(1,2,3) for Player " + playerMark + ": ");
+           Scanner scan1 = new Scanner(System.in); 
+        
+           int selectedRow = scan1.nextInt();
+           System.out.println("Enter column(1,2,3) for Player " + playerMark + ": ");
+           Scanner scan2 = new Scanner(System.in); 
+           int selectedCol = scan2.nextInt();
+           
+           placeMarkOnBoard(selectedRow - 1, selectedCol - 1, playerMark,  board);
+           makeTheBoard(board);
+           if (isThereAWinner(board)){
+             System.out.println("Game Over Player " + playerMark + " Has Won!"); 
+             gameOn = false;
+           }else if(isBoardFull(board)){
+             System.out.println("Draw: Board is full, restart the game.");  
+             gameOn = false;  
+           }   
+            
+           playerMark = changePlayerMark(playerMark);
+        }
+        
+     
+    }
+    static boolean isBoardFull(char[][] gameBoard) { 
+        boolean isFull = true; 
+        for (int i = 0; i < 3; i++) { 
+            for (int j = 0; j < 3; j++) { 
+                if (gameBoard[i][j] == ' ') { 
+                    isFull = false; 
+                } 
+            } 
+        } 
+        return isFull;  
+    } 
+    static boolean isThereAWinner(char[][] gameBoard) { 
+        //check if someone won
+      for (int i= 0; i<3; i++)  {  
+            if (gameBoard[i][0] != ' '){
+              if ((gameBoard[i][0] == gameBoard[i][1]) && (gameBoard[i][0] == gameBoard[i][2])) // checking rows
+              return true;    
+            }     
+      } 
+      for (int j= 0; j<3; j++)  { 
+            if (gameBoard[0][j] != ' '){
+                if ((gameBoard[0][j] == gameBoard[1][j]) && (gameBoard[0][j] == gameBoard[2][j])) // checking collums
+                return true;     
+            }    
+      }
+      if (gameBoard[0][0] != ' '){
+       if ((gameBoard[0][0] == gameBoard[1][1]) && (gameBoard[0][0] == gameBoard[2][2])) //1st diagonal
+       return true; 
+      }
+      if (gameBoard[0][2] != ' '){
+       if ((gameBoard[0][2] == gameBoard[1][1]) && (gameBoard[0][2] == gameBoard[2][0])) //2nd diagonal
+       return true; 
+      } 
+        
+      return false  ;
+    } 
+    static void makeTheBoard(char[][] gameBoard) { 
+    
+        
+        System.out.println("-------------"); 
+        for (int i = 0; i < 3; i++) { 
+            System.out.print("| "); 
+            for (int j = 0; j < 3; j++) { 
+                System.out.print(gameBoard[i][j] + " | "); 
+            } 
+            System.out.println(); 
+            System.out.println("-------------"); 
+        } 
+        
+    }  
+    
+ 
+    //Place mark on the board
+    static void placeMarkOnBoard(int row, int col, char thisPlayerMark, char[][] gameBoard) {     
+        
+        if (row < 0 || row > 3 || col < 0 || col > 3)
+            System.out.println("Numbers out of bound. Missed your turn.");
+        else if (gameBoard[row][col] != ' ')
+            System.out.println("Cell already taken. Missed your turn.");  
+        else
+            gameBoard[row][col] = thisPlayerMark;
+        
+       
+               
+     } 
+   
+
+ // Change player mark to the other mark . 
+    static char changePlayerMark(char currentPlayerMark) { 
+    char newPlayerMark ;
+        if (currentPlayerMark == 'X') newPlayerMark = 'O';          
+        else newPlayerMark = 'X';  
+        
+    return newPlayerMark;
+    } 
+    
+}
+
+
+    
+
